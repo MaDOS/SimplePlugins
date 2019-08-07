@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimplePlugins
 {
@@ -32,21 +29,32 @@ namespace SimplePlugins
         return;
       }
 
+
+#if DEBUG
+      Console.WriteLine($"Registering plugin {typeof(T).Name}");
+#endif
+
       this.Plugins.Add(typeof(T), new T());
     }
 
     public void InitializePlugins()
     {
-      foreach(IPluginRunnable plugin in this.Plugins.Values)
+      foreach (IPluginRunnable plugin in this.Plugins.Values)
       {
+#if DEBUG
+        Console.WriteLine($"Initializing plugin {plugin.GetType().Name}");
+#endif
         plugin.Initialize();
       }
     }
 
     public void StartPlugins()
     {
-      foreach(IPluginRunnable plugin in this.Plugins.Values)
+      foreach (IPluginRunnable plugin in this.Plugins.Values)
       {
+#if DEBUG
+        Console.WriteLine($"Starting plugin {plugin.GetType().Name}");
+#endif
         plugin.Start();
       }
     }
@@ -55,6 +63,9 @@ namespace SimplePlugins
     {
       foreach (IPluginRunnable plugin in this.Plugins.Values)
       {
+#if DEBUG
+        Console.WriteLine($"Stopping plugin {plugin.GetType().Name}");
+#endif
         plugin.Stop();
       }
     }
